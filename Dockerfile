@@ -15,7 +15,7 @@ COPY . .
 #RUN git clone https://github.com/cghidalgos/TallerCartas.git /app
 
 # Instala las dependencias del proyecto
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
 # Configura variables de entorno
 ENV FLASK_APP=app.py

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio - Recetas App{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Nuestras Recetas</h1>
+
+{% if recetas %}
+    <div class="row">
+        {% for receta in recetas %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    {% if receta.imagen_url %}
+                        <img src="{{ receta.imagen_url }}" class="card-img-top" alt="{{ receta.nombre }}">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='img/default-recipe.jpg') }}" class="card-img-top" alt="Imagen por defecto">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ receta.nombre }}</h5>
+                        <p class="card-text">{{ receta.descripcion|truncate(100) }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge badge-{{ 'success' if receta.dificultad == 'fácil' else 'warning' if receta.dificultad == 'media' else 'danger' }}">
+                                {{ receta.dificultad|title }}
+                            </span>
+                            <small class="text-muted">{{ receta.tiempo_preparacion }} min</small>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <a href="{{ url_for('ver_receta', id=receta.id) }}" class="btn btn-outline-primary btn-sm">Ver detalles</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        No hay recetas disponibles. ¡Sé el primero en agregar una!
+    </div>
+    <a href="{{ url_for('nueva_receta') }}" class="btn btn-primary">Crear Nueva Receta</a>
+{% endif %}
+{% endblock %}

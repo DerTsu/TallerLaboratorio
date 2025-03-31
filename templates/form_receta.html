@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ 'Editar' if receta else 'Nueva' }} Receta - Recetas App{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">{{ 'Editar' if receta else 'Nueva' }} Receta</h1>
+
+<form method="POST" class="mb-5">
+    <div class="form-group">
+        <label for="nombre">Nombre de la receta *</label>
+        <input type="text" class="form-control" id="nombre" name="nombre" value="{{ receta.nombre if receta else '' }}" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="descripcion">Descripción</label>
+        <textarea class="form-control" id="descripcion" name="descripcion" rows="3">{{ receta.descripcion if receta else '' }}</textarea>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="tiempo_preparacion">Tiempo de preparación (minutos)</label>
+                <input type="number" class="form-control" id="tiempo_preparacion" name="tiempo_preparacion" value="{{ receta.tiempo_preparacion if receta else '' }}">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="dificultad">Dificultad</label>
+                <select class="form-control" id="dificultad" name="dificultad">
+                    <option value="">-- Seleccionar --</option>
+                    <option value="fácil" {% if receta and receta.dificultad == 'fácil' %}selected{% endif %}>Fácil</option>
+                    <option value="media" {% if receta and receta.dificultad == 'media' %}selected{% endif %}>Media</option>
+                    <option value="difícil" {% if receta and receta.dificultad == 'difícil' %}selected{% endif %}>Difícil</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="ingredientes">Ingredientes</label>
+        <textarea class="form-control" id="ingredientes" name="ingredientes" rows="5" placeholder="Escriba cada ingrediente en una línea nueva">{{ receta.ingredientes if receta else '' }}</textarea>
+    </div>
+    
+    <div class="form-group">
+        <label for="instrucciones">Instrucciones</label>
+        <textarea class="form-control" id="instrucciones" name="instrucciones" rows="8" placeholder="Escriba cada paso en una línea nueva">{{ receta.instrucciones if receta else '' }}</textarea>
+    </div>
+    
+    <div class="form-group">
+        <label for="imagen_url">URL de la imagen</label>
+        <input type="url" class="form-control" id="imagen_url" name="imagen_url" value="{{ receta.imagen_url if receta else '' }}" placeholder="http://ejemplo.com/imagen.jpg">
+    </div>
+    
+    <button type="submit" class="btn btn-primary">{{ 'Guardar cambios' if receta else 'Crear receta' }}</button>
+    <a href="{{ url_for('ver_receta', id=receta.id) if receta else url_for('index') }}" class="btn btn-secondary ml-2">Cancelar</a>
+</form>
+{% endblock %}
